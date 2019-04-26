@@ -65,13 +65,9 @@ public class LoginController {
             Map<String, Object> map = userService.login(username, password);
             if (map.containsKey("ticket")) {
                 Cookie cookie = new Cookie("ticket", map.get("ticket").toString());
-                cookie.setPath("/"); // 在同一应用服务器内共享cookie
+                // 在同一应用服务器内共享cookie
+                cookie.setPath("/");
                 response.addCookie(cookie);
-//                //用户登陆完设置一个事件
-//                eventProducer.fireEvent(new EventModel(EventType.LOGIN)
-//                        .setExts("username", username).setExts("email", "1390505180@qq.com"));
-//                // .setActorId((int)map.get("user_id")));          //用户登陆完之后判断是谁登录的
-                // 当读取到的next字段不为空的话跳转
                 if (!StringUtils.isEmpty(next)) {
                     return "redirect:" + next;
                 }

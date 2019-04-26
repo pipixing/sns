@@ -2,7 +2,7 @@ package com.pipixing.sns.model;
 
 import java.util.HashMap;
 import java.util.Map;
-
+//用于和前端交互的对象
 public class ViewObject {
     private Map<String, Object> objs = new HashMap<>();
 
