@@ -29,11 +29,13 @@ public class LoginController {
             Map<String, String> map = userService.register(username, password);
             if (map.containsKey("ticket")) {
                 Cookie cookie = new Cookie("ticket", map.get("ticket"));
-                cookie.setPath("/"); // 在同一应用服务器内共享cookie
+                // 在同一应用服务器内共享cookie
+                cookie.setPath("/");
                 if(rememberme){
                     cookie.setMaxAge(3600*24*5);
                 }
-                response.addCookie(cookie); // ticket下发到客户端（浏览器）存储
+                // ticket下发到客户端（浏览器）存储
+                response.addCookie(cookie);
                 // 当读取到的next字段不为空的话跳转
                 if (!StringUtils.isEmpty(next)) {
                     return "redirect:" + next;
@@ -51,7 +53,8 @@ public class LoginController {
     }
     @RequestMapping(path = {"/reglogin"}, method = {RequestMethod.GET})
     public String register(Model model, @RequestParam(value = "next", required = false) String next) {
-        model.addAttribute("next", next); // 把next参数放在view里
+        // 把next参数放在view里
+        model.addAttribute("next", next);
         return "login";
     }
 
@@ -67,7 +70,12 @@ public class LoginController {
                 Cookie cookie = new Cookie("ticket", map.get("ticket").toString());
                 // 在同一应用服务器内共享cookie
                 cookie.setPath("/");
+                if(rememberme){
+                    cookie.setMaxAge(3600*24*5);
+                }
+                // ticket下发到客户端（浏览器）存储
                 response.addCookie(cookie);
+                // 当读取到的next字段不为空的话跳转
                 if (!StringUtils.isEmpty(next)) {
                     return "redirect:" + next;
                 }

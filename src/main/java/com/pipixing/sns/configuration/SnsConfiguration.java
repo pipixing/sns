@@ -18,6 +18,7 @@ public class SnsConfiguration extends WebMvcConfigurationSupport {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(ticketInterceptor);
+        //当访问/user/以下的页面的时候才会触发这个拦击器
         registry.addInterceptor(loginRequiredInterceptor).addPathPatterns("/user/*");
         super.addInterceptors(registry);
     }
