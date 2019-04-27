@@ -20,6 +20,7 @@ public class QuestionController {
     HostHolder hostHolder;
     private static final Logger logger = LoggerFactory.getLogger(QuestionController.class);
 
+    //增加一个问题
     @RequestMapping(path = "/question/add",method = {RequestMethod.POST})
     @ResponseBody
     public String addQuestion(@RequestParam("title") String title,@RequestParam("content") String content){
