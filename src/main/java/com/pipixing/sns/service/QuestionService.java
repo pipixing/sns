@@ -32,4 +32,14 @@ public class QuestionService {
         // 这里question.getId()就是存进数据库后对应的Id了
         return questionDAO.addQuestion(question) > 0 ? question.getId() : 0;
     }
+
+    // 选择问题
+    public Question selectQuestion(int id){
+        return questionDAO.selectQuestionById(id);
+    }
+
+    // 更新每个问题的评论数
+    public int updateCommentCount(int questionId,int count){
+        return questionDAO.updateCommentCount(questionId,count);
+    }
 }
