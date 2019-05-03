@@ -23,4 +23,12 @@ public class MessageService {
     public void addMessage(Message message){
         messageDAO.addMessage(message);
     }
+
+    public List<Message> getMessageListDetail(String conversationId, int offset, int limit) {
+        return messageDAO.getMessageListDetail(conversationId,offset,limit);
+    }
+
+    public void hasReadMessage(int toId,String conversationId,int hasRead){
+        messageDAO.hasReadMessage(toId,conversationId,hasRead);
+    }
 }
