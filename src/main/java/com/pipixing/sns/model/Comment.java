@@ -6,13 +6,13 @@ public class Comment {
     //评论索引
     private int id;
     //谁提出的评论
-    private int userId;
+    private int user_id;
     //评论问题的id
-    private int entityId;
+    private int entity_id;
     //是评论的问题还是评论
-    private int entityType;
+    private int entity_type;
     private String content;
-    private Date createdDate;
+    private Date created_date;
     private int status;
 
     public int getId() {
@@ -24,27 +24,27 @@ public class Comment {
     }
 
     public int getUserId() {
-        return userId;
+        return user_id;
     }
 
     public void setUserId(int userId) {
-        this.userId = userId;
+        this.user_id = userId;
     }
 
     public int getEntityId() {
-        return entityId;
+        return entity_id;
     }
 
     public void setEntityId(int entityId) {
-        this.entityId = entityId;
+        this.entity_id = entityId;
     }
 
     public int getEntityType() {
-        return entityType;
+        return entity_type;
     }
 
     public void setEntityType(int entityType) {
-        this.entityType = entityType;
+        this.entity_type = entityType;
     }
 
     public String getContent() {
@@ -56,11 +56,11 @@ public class Comment {
     }
 
     public Date getCreatedDate() {
-        return createdDate;
+        return created_date;
     }
 
     public void setCreatedDate(Date createdDate) {
-        this.createdDate = createdDate;
+        this.created_date = createdDate;
     }
 
     public int getStatus() {

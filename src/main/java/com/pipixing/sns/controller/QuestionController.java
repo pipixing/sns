@@ -61,6 +61,8 @@ public class QuestionController {
         List<Comment> commentList = commentService.getCommentByEntityId(id, EntityType.ENTITY_QUESTION);
         List<ViewObject> comments = new ArrayList<>();
         for (Comment comment:commentList){
+            if(comment.getStatus()==1)
+                continue;
             ViewObject vo = new ViewObject();
             //到时候要删掉的
             vo.set("liked", 0);
