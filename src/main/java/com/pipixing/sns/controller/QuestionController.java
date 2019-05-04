@@ -3,6 +3,7 @@ package com.pipixing.sns.controller;
 import com.pipixing.sns.dao.CommentDAO;
 import com.pipixing.sns.model.*;
 import com.pipixing.sns.service.CommentService;
+import com.pipixing.sns.service.LikeService;
 import com.pipixing.sns.service.QuestionService;
 import com.pipixing.sns.service.UserService;
 import com.pipixing.sns.utils.SnsUtil;
@@ -27,6 +28,8 @@ public class QuestionController {
     CommentService commentService;
     @Autowired
     UserService userService;
+    @Autowired
+    LikeService likeService;
     private static final Logger logger = LoggerFactory.getLogger(QuestionController.class);
 
     //增加一个问题
@@ -64,9 +67,12 @@ public class QuestionController {
             if(comment.getStatus()==1)
                 continue;
             ViewObject vo = new ViewObject();
-            //到时候要删掉的
-            vo.set("liked", 0);
-            vo.set("likeCount",12);
+            if(hostHolder.getUser()==null)
+                vo.set("liked", 0);
+            else {
+                vo.set("liked", likeService.getLikeStatus(hostHolder.getUser().getId(),EntityType.ENTITY_COMMENT,comment.getEntityId()));
+            }
+            vo.set("likeCount",likeService.getLikeCount(EntityType.ENTITY_COMMENT,comment.getId()));
             vo.set("comment",comment);
             vo.set("user",userService.getUser(comment.getUserId()));
             comments.add(vo);
