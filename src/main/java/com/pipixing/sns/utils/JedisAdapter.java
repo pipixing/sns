@@ -6,8 +6,11 @@ import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.stereotype.Service;
+import redis.clients.jedis.Transaction;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class JedisAdapter implements InitializingBean {
@@ -23,9 +26,9 @@ public class JedisAdapter implements InitializingBean {
         System.out.println(String.format("%d, %s", index, obj.toString()));
     }
 
-    public static void main(String[] argv){
+    public static void main(String[] argv) {
         JedisAdapter jedis = new JedisAdapter();
-        List<String> list = jedis.brpop(0,"EVENTQUEUE");
+        List<String> list = jedis.brpop(0, "EVENTQUEUE");
         System.out.println(list.get(0));
 
     }
@@ -45,6 +48,23 @@ public class JedisAdapter implements InitializingBean {
         }
         return 0;
     }
+
+    //指定区间内，带有分数值(可选)的有序集成员的列表。
+    public Set<String> zrevrange(String key, int start, int end) {
+        Jedis jedis = null;
+        try {
+            jedis = pool.getResource();
+            return jedis.zrevrange(key, start, end);
+        } catch (Exception e) {
+            logger.error("发生异常" + e.getMessage());
+        } finally {
+            if (jedis != null) {
+                jedis.close();
+            }
+        }
+        return null;
+    }
+
     //命令用于移除集合中的一个或多个成员元素,不存在的成员元素会被忽略
     public long srem(String key, String value) {
         Jedis jedis = null;
@@ -60,6 +80,7 @@ public class JedisAdapter implements InitializingBean {
         }
         return 0;
     }
+
     //命令返回集合中元素的数量
     public long scard(String key) {
         Jedis jedis = null;
@@ -75,6 +96,7 @@ public class JedisAdapter implements InitializingBean {
         }
         return 0;
     }
+
     //命令判断成员元素是否是集合的成员
     public boolean sismember(String key, String value) {
         Jedis jedis = null;
@@ -90,6 +112,7 @@ public class JedisAdapter implements InitializingBean {
         }
         return false;
     }
+
     //移出并获取列表的最后一个元素
     public List<String> brpop(int timeout, String key) {
         Jedis jedis = null;
@@ -105,6 +128,7 @@ public class JedisAdapter implements InitializingBean {
         }
         return null;
     }
+
     //命令将一个或多个值插入到列表头部。如果 key 不存在,一个空列表会被创建并执行
     public long lpush(String key, String value) {
         Jedis jedis = null;
@@ -119,5 +143,43 @@ public class JedisAdapter implements InitializingBean {
             }
         }
         return 0;
+    }
+
+    //调用multi事务
+    public Transaction multi(Jedis jedis){
+        try {
+            return jedis.multi();
+        } catch (Exception e) {
+            logger.error("发生异常" + e.getMessage());
+        } finally {
+        }
+        return null;
+    }
+
+    public Jedis getJedis(){
+        return pool.getResource();
+    }
+
+    //执行所有事务块内的命令。
+    public List<Object> exec(Transaction tx,Jedis jedis){
+        try {
+            return tx.exec();
+        } catch (Exception e) {
+            logger.error("发生异常" + e.getMessage());
+            tx.discard();
+        } finally {
+            if (tx != null) {
+                try {
+                    tx.close();
+                } catch (IOException ioe) {
+                    // ..
+                }
+            }
+
+            if (jedis != null) {
+                jedis.close();
+            }
+        }
+        return null;
     }
 }
