@@ -113,6 +113,22 @@ public class JedisAdapter implements InitializingBean {
         return false;
     }
 
+    // 返回列表中指定区间内的元素，区间以偏移量 START 和 END 指定
+    public List<String> lrange(String key, int start, int end) {
+        Jedis jedis = null;
+        try {
+            jedis = pool.getResource();
+            return jedis.lrange(key, start, end);
+        } catch (Exception e) {
+            logger.error("发生异常" + e.getMessage());
+        } finally {
+            if (jedis != null) {
+                jedis.close();
+            }
+        }
+        return null;
+    }
+
     //移出并获取列表的最后一个元素
     public List<String> brpop(int timeout, String key) {
         Jedis jedis = null;

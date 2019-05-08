@@ -1,5 +1,8 @@
 package com.pipixing.sns.controller;
 
+import com.pipixing.sns.async.EventModel;
+import com.pipixing.sns.async.EventProducer;
+import com.pipixing.sns.async.EventType;
 import com.pipixing.sns.model.Comment;
 import com.pipixing.sns.model.EntityType;
 import com.pipixing.sns.model.HostHolder;
@@ -38,6 +41,9 @@ public class CommentController {
     @Autowired
     QuestionService questionService;
 
+    @Autowired
+    EventProducer eventProducer;
+
     @PostMapping(value = "/addComment")
     public String addComment(@RequestParam("questionId") int questionId,
                              @RequestParam("content") String content){
@@ -61,6 +67,8 @@ public class CommentController {
             //获取某个问题的评论数
             int count = commentService.getCommentCount(comment.getEntityId(),EntityType.ENTITY_QUESTION);
             questionService.updateCommentCount(comment.getEntityId(),count);
+            // 推送异步事件
+            eventProducer.pushEventToMQ(new EventModel(EventType.COMMENT).setActorId(comment.getUserId()).setEntityId(questionId));
         }catch (Exception e){
             logger.error("增加评论失败："+e.getMessage());
         }
