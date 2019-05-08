@@ -13,6 +13,6 @@ public class UnfollowHandler implements EventHandler {
     @Override
     public void doHandler(EventModel eventModel){}
     @Override
-    public List<EventType> getSupportEventTypes(){return Arrays.asList(EventType.UNFELLOW);
+    public List<EventType> getSupportEventTypes(){return Arrays.asList(EventType.UNFOLLOW);
     }
 }

@@ -45,6 +45,6 @@ public class FollowHandler implements EventHandler {
 
     @Override
     public List<EventType> getSupportEventTypes() {
-        return Arrays.asList(EventType.FELLOW);
+        return Arrays.asList(EventType.FOLLOW);
     }
 }

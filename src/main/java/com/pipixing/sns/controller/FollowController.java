@@ -46,7 +46,7 @@ public class FollowController {
             boolean ret = followService.follow(hostHolder.getUser().getId(), EntityType.ENTITY_USER, userId);
 
             //如果关注则发站内信给对应User
-            eventProducer.pushEventToMQ(new EventModel(EventType.FELLOW).setActorId(hostHolder.getUser().getId())
+            eventProducer.pushEventToMQ(new EventModel(EventType.FOLLOW).setActorId(hostHolder.getUser().getId())
                     .setEntityType(EntityType.ENTITY_USER).setEntityId(userId).setEntityOwner(userId));
             //返回当前用户关注的总的人数
             return SnsUtil.getJsonString(ret ? 0 : 1, String.valueOf(followService.getFolloweeCount(hostHolder.getUser().getId(), EntityType.ENTITY_USER)));
@@ -65,7 +65,7 @@ public class FollowController {
                 return SnsUtil.getJsonString(999);
             boolean ret = followService.unfollow(hostHolder.getUser().getId(), EntityType.ENTITY_USER, userId);
 
-            eventProducer.pushEventToMQ(new EventModel(EventType.UNFELLOW).setActorId(hostHolder.getUser().getId())
+            eventProducer.pushEventToMQ(new EventModel(EventType.UNFOLLOW).setActorId(hostHolder.getUser().getId())
                     .setEntityType(EntityType.ENTITY_USER).setEntityId(userId).setEntityOwner(userId));
             //返回当前用户关注的总的人数
             return SnsUtil.getJsonString(ret ? 0 : 1, String.valueOf(followService.getFolloweeCount(hostHolder.getUser().getId(), EntityType.ENTITY_USER)));
@@ -89,7 +89,7 @@ public class FollowController {
             //如果关注则发站内信给对应User
             boolean ret = followService.follow(hostHolder.getUser().getId(), EntityType.ENTITY_QUESTION, questionId);
 
-            eventProducer.pushEventToMQ(new EventModel(EventType.FELLOW).setActorId(hostHolder.getUser().getId())
+            eventProducer.pushEventToMQ(new EventModel(EventType.FOLLOW).setActorId(hostHolder.getUser().getId())
                     .setEntityType(EntityType.ENTITY_QUESTION).setEntityId(questionId).setEntityOwner(question.getUser_id()));
             //返回当前用户关注的总的人数
             return SnsUtil.getJsonString(ret ? 0 : 1, String.valueOf(followService.getFolloweeCount(hostHolder.getUser().getId(), EntityType.ENTITY_QUESTION)));
@@ -111,7 +111,7 @@ public class FollowController {
                 return SnsUtil.getJsonString(1,"question不存在");
             boolean ret = followService.unfollow(hostHolder.getUser().getId(), EntityType.ENTITY_QUESTION, questionId);
 
-            eventProducer.pushEventToMQ(new EventModel(EventType.UNFELLOW).setActorId(hostHolder.getUser().getId())
+            eventProducer.pushEventToMQ(new EventModel(EventType.UNFOLLOW).setActorId(hostHolder.getUser().getId())
                     .setEntityType(EntityType.ENTITY_QUESTION).setEntityId(questionId).setEntityOwner(question.getUser_id()));
             //返回当前用户关注的总的人数
             return SnsUtil.getJsonString(ret ? 0 : 1, String.valueOf(followService.getFolloweeCount(hostHolder.getUser().getId(), EntityType.ENTITY_QUESTION)));
