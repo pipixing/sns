@@ -22,11 +22,11 @@ public class RedisKeyUtil {
 
     //某个实体的粉丝的key
     public static String getFollowerKey(int entityType,int entityId){
-        return  BIZ_LIKE + SPLIT + String.valueOf(entityType) +SPLIT + String.valueOf(entityId);
+        return  BTZ_FOLLOWER + SPLIT + String.valueOf(entityType) +SPLIT + String.valueOf(entityId);
     }
 
     //某个用户对某类实体的关注key
-    public static String getFolloweeKey(int userId,int entityId){
-        return  BIZ_DISLIKE + SPLIT + String.valueOf(userId) +SPLIT + String.valueOf(entityId);
+    public static String getFolloweeKey(int userId,int entityType){
+        return  BTZ_FOLLOWEE + SPLIT + String.valueOf(userId) +SPLIT + String.valueOf(entityType);
     }
 }

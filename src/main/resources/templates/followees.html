@@ -60,7 +60,7 @@
                                         /
                                         <a target="_blank" th:text="${vo.get('followeeCount')}+'关注'" th:href="'/user/'+${vo.get('user').id}+'/followees'" href="" class="zg-link-gray-normal">0关注</a>
                                         /
-                                        <a target="_blank" th:text="${vo.get('comment_count')}+' 回答'" href="#" class="zg-link-gray-normal">0 回答</a>
+                                        <a target="_blank" th:text="${vo.get('commentCount')}+' 回答'" th:href="'/user/'+${vo.get('user').id}" class="zg-link-gray-normal">0 回答</a>
                                         /
                                         <a target="_blank" href="#" class="zg-link-gray-normal">5 赞同</a>
                                     </div>

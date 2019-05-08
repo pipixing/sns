@@ -32,7 +32,8 @@ public class LikeHandler implements EventHandler {
         message.setFromId(fromId);
         message.setToId(toId);
         message.setCreatedDate(new Date());
-        message.setContent("用户" + user.getName() + "赞了你的问题，http://127.0.0.1/question/" + eventModel.getExts().get("questionId"));
+        message.setContent("用户" + user.getName() +
+                "赞了你的评论，http://127.0.0.1/question/" + eventModel.getExts().get("questionId"));
         message.setConversationId(fromId < toId ? String.format("%d_%d", fromId, toId) : String.format("%d_%d", toId, fromId));
         messageService.addMessage(message);
 
